@@ -10,19 +10,20 @@ part 'permissions_event.dart';
 part 'permissions_state.dart';
 
 class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
-  PermissionsBloc({required this.requestPermissions})
-    : super(const PermissionsInitial()) {
+  PermissionsBloc({required RequestPermissions requestPermissions})
+    : _requestPermissions = requestPermissions,
+      super(const PermissionsInitial()) {
     on<RequestPermissionsEvent>(_onRequestPermissions);
   }
 
-  final RequestPermissions requestPermissions;
+  final RequestPermissions _requestPermissions;
 
   FutureOr<void> _onRequestPermissions(
     RequestPermissionsEvent event,
     Emitter<PermissionsState> emit,
   ) async {
     emit(const PermissionsLoading());
-    final result = await requestPermissions(const NoParams());
+    final result = await _requestPermissions(const NoParams());
     result.fold(
       (failure) => emit(PermissionsError(errorMessage: failure.message)),
       (_) => emit(const PermissionsGranted()),
