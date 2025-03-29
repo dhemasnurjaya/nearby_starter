@@ -45,6 +45,9 @@ dependencies:
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
   random_name_generator: ^1.5.0
+  permission_handler: ^11.4.0
+  location: ^8.0.0
+  device_info_plus: ^11.3.3
 
 dev_dependencies:
   flutter_test:

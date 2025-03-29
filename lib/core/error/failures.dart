@@ -25,3 +25,8 @@ class UnknownFailure extends Failure {
 class CacheFailure extends Failure {
   const CacheFailure({super.message, super.cause});
 }
+
+/// Failure occurring in requesting permissions
+class PermissionFailure extends Failure {
+  const PermissionFailure({super.message, super.cause});
+}
