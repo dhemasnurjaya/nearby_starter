@@ -9,6 +9,7 @@ import 'package:nearby_starter/domain/usecases/start_advertising.dart';
 import 'package:nearby_starter/domain/usecases/start_discovering.dart';
 import 'package:nearby_starter/domain/usecases/stop_advertising.dart';
 import 'package:nearby_starter/domain/usecases/stop_discovering.dart';
+import 'package:nearby_starter/presentation/bloc/nearby_service/connection/connection_bloc.dart';
 import 'package:random_name_generator/random_name_generator.dart';
 
 /// Nearby Connections service that always run throughout the app's lifecycle.
@@ -30,6 +31,8 @@ class _NearbyServiceState extends State<NearbyService>
   Timer? _processMessageTimer;
 
   late String username;
+  late ConnectionBloc _connectionBloc;
+
   late StartAdvertising _startAdvertising;
   late StopAdvertising _stopAdvertising;
   late StartDiscovering _startDiscovering;
@@ -41,6 +44,7 @@ class _NearbyServiceState extends State<NearbyService>
     WidgetsBinding.instance.addObserver(this);
 
     username = RandomNames().name();
+    _connectionBloc = GetIt.I<ConnectionBloc>();
 
     _startAdvertising = GetIt.I<StartAdvertising>();
     _stopAdvertising = GetIt.I<StopAdvertising>();
@@ -103,12 +107,12 @@ class _NearbyServiceState extends State<NearbyService>
       StartAdvertisingParams(username),
     ).chain((_) => _startDiscovering(StartDiscoveringParams(username)));
 
-    /*
     // request connection
     _connectionTimer = Timer.periodic(Duration(seconds: 1), (_) {
-      GetIt.I<ConnectionBloc>().add(SendConnectionRequestsEvent(username));
+      _connectionBloc.add(SendConnectionRequestsEvent(username));
     });
 
+    /*
     // data sync
     _dataSyncTimer = Timer.periodic(
       const Duration(milliseconds: 1000),

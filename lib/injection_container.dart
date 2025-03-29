@@ -4,6 +4,7 @@ import 'package:nearby_starter/core/id_generator.dart';
 import 'package:nearby_starter/core/nearby/nearby.dart';
 import 'package:nearby_starter/core/permissions_util.dart';
 import 'package:nearby_starter/core/time.dart';
+import 'package:nearby_starter/data/local/models/user_model.dart';
 import 'package:nearby_starter/data/remote/data_sources/nearby_connection_remote_data_source.dart';
 import 'package:nearby_starter/data/remote/models/nearby_connection_message_model.dart';
 import 'package:nearby_starter/data/remote/models/nearby_connection_model.dart';
@@ -32,6 +33,9 @@ Future<void> setup() async {
   _ic.registerLazySingleton<PermissionUtil>(() => PermissionUtilImpl());
 
   // caches
+  _ic.registerLazySingleton<Cache<String, UserModel>>(
+    () => MemoryCache<String, UserModel>(),
+  );
   _ic.registerLazySingleton<Cache<String, NearbyConnectionModel>>(
     () => MemoryCache<String, NearbyConnectionModel>(),
   );
